@@ -7,15 +7,22 @@
 #define cyan   "\033[36m"
 #define red "\033[31m"
 
+#define max_clients 200
+#define max_products 100
+
 struct client_data {
 
     int id;
     char name[50];
-    char cpf[15];
+    int cpf;
 
 };
 
 typedef struct client_data client_data;
+
+client_data clients[max_clients];
+client_data client_verify[max_clients];
+int total_clients = 1;
 
 struct product {
 
@@ -39,7 +46,7 @@ struct order {
 
     int order_number;                                                       
     int id_client;
-    item_order itens[100];
+    item_order itens[100]; // 
     int total_itens; // quantity of differenty products
     float total_value; // Total value of the order
     char order_date[11];
@@ -48,22 +55,59 @@ struct order {
 
 typedef struct order order;
 
+void client_registration (void) {
+
+    printf("==========================\n");
+    printf("|" cyan "     Client registration" reset     "     |\n" );
+    printf("==========================\n");
+
+// Register client (Asks for "Name" "CPF" and generates an ID, goes to struct clients)
+    printf ("Enter your name: "); 
+    fgets (client_verify[total_clients].name, 49, stdin);
+    client_verify[total_clients].name[strcspn(clients[total_clients].name, "\n")] = '\0';
+
+    printf ("Enter your CPF (only numbers): ");
+    scanf ("%d", &client_verify[total_clients].cpf );
+
+        for (int i = 1; i < total_clients + 1; i++) {
+
+            if (client_verify[i].cpf == clients[i].cpf ){
+                printf (red "Client already registered!\n" reset);
+                break;
+            }
+
+            else {
+                strcpy (clients[total_clients].name, client_verify[total_clients].name); // name
+
+                clients[total_clients].cpf = client_verify[total_clients].cpf; //cpf
+
+                clients[total_clients].id += 1;
+                total_clients++;
+
+                printf (green "Client Registred!\n" reset);
+                break;
+            }
+        }
+        
+}
+
 void registration_menu (void) {
 
         int opt;
 
         printf("==========================\n");
-        printf("|" cyan "     Registrations" reset     "      |\n" );
+        printf("|" cyan "      Registrations" reset     "     |\n" );
         printf("==========================\n");
         printf ("|" green " [1]" reset " Register Client    |  \n");
         printf ("|" green " [2]" reset " Register Product   |  \n");
         printf ("==========================  \n");
 
         scanf ("%d", &opt); 
+        getchar ();
 
         switch (opt) {
             case 1: // Register client (Asks for "Name" "CPF" and generates an ID, goes to struct clients)
-
+                client_registration();
             break;
 
             case 2: // Register Product (Asks for "Name" and "Price" generates an ID, goes to struct product)
@@ -183,7 +227,6 @@ int main () {
     setlocale(LC_ALL, ".UTF-8");
 
     menu(); // MENU void
-
 
     return 0;
 }
