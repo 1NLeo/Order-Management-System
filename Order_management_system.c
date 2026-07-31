@@ -7,10 +7,10 @@
 #define cyan   "\033[36m"
 #define red "\033[31m"
 
-#define max_clients 200
+#define max_costumers 200
 #define max_products 100
 
-struct client_data {
+struct costumer_data {
 
     int id;
     char name[50];
@@ -18,11 +18,11 @@ struct client_data {
 
 };
 
-typedef struct client_data client_data;
+typedef struct costumer_data costumer_data;
 
-client_data clients[max_clients];
-client_data client_verify[max_clients];
-int total_clients = 1;
+costumer_data costumers[max_costumers];
+costumer_data costumer_verify[max_costumers];
+int total_costumer = 1;
 
 struct product {
 
@@ -45,7 +45,7 @@ typedef struct item_order item_order;
 struct order {
 
     int order_number;                                                       
-    int id_client;
+    int id_costumer;
     item_order itens[100]; // 
     int total_itens; // quantity of differenty products
     float total_value; // Total value of the order
@@ -55,36 +55,36 @@ struct order {
 
 typedef struct order order;
 
-void client_registration (void) {
+void costumer_registration (void) {
 
     printf("==========================\n");
-    printf("|" cyan "     Client registration" reset     "     |\n" );
+    printf("|" cyan "     Costumer registration" reset     "     |\n" );
     printf("==========================\n");
 
-// Register client (Asks for "Name" "CPF" and generates an ID, goes to struct clients)
+// Register costumer (Asks for "Name" "CPF" and generates an ID, goes to struct costumers)
     printf ("Enter your name: "); 
-    fgets (client_verify[total_clients].name, 49, stdin);
-    client_verify[total_clients].name[strcspn(clients[total_clients].name, "\n")] = '\0';
+    fgets (costumer_verify[total_costumer].name, 49, stdin);
+    costumer_verify[total_costumer].name[strcspn(costumer_verify[total_costumer].name, "\n")] = '\0';
 
     printf ("Enter your CPF (only numbers): ");
-    scanf ("%d", &client_verify[total_clients].cpf );
+    scanf ("%d", &costumer_verify[total_costumer].cpf );
 
-        for (int i = 1; i < total_clients + 1; i++) {
+        for (int i = 1; i < total_costumer + 1; i++) {
 
-            if (client_verify[i].cpf == clients[i].cpf ){
-                printf (red "Client already registered!\n" reset);
+            if (costumer_verify[i].cpf == costumers[i].cpf ){
+                printf (red "Costumer already registered!\n" reset);
                 break;
             }
 
             else {
-                strcpy (clients[total_clients].name, client_verify[total_clients].name); // name
+                strcpy (costumers[total_costumer].name, costumer_verify[total_costumer].name); // name
 
-                clients[total_clients].cpf = client_verify[total_clients].cpf; //cpf
+                costumers[total_costumer].cpf = costumer_verify[total_costumer].cpf; //cpf
 
-                clients[total_clients].id += 1;
-                total_clients++;
+                costumers[total_costumer].id += 1;
+                total_costumer++;
 
-                printf (green "Client Registred!\n" reset);
+                printf (green "Costumer Registred!\n" reset);
                 break;
             }
         }
@@ -98,7 +98,7 @@ void registration_menu (void) {
         printf("==========================\n");
         printf("|" cyan "      Registrations" reset     "     |\n" );
         printf("==========================\n");
-        printf ("|" green " [1]" reset " Register Client    |  \n");
+        printf ("|" green " [1]" reset " Register Costumer  |  \n");
         printf ("|" green " [2]" reset " Register Product   |  \n");
         printf ("==========================  \n");
 
@@ -106,8 +106,8 @@ void registration_menu (void) {
         getchar ();
 
         switch (opt) {
-            case 1: // Register client (Asks for "Name" "CPF" and generates an ID, goes to struct clients)
-                client_registration();
+            case 1: // Register costumer (Asks for "Name" "CPF" and generates an ID, goes to struct costumers)
+                costumer_registration();
             break;
 
             case 2: // Register Product (Asks for "Name" and "Price" generates an ID, goes to struct product)
@@ -135,7 +135,7 @@ void orders_menu (void) {
         scanf ("%d", &opt); 
 
         switch (opt) {
-            case 1: // Asks for the client ID (CPF), after that show the list of products
+            case 1: // Asks for the costumer ID (CPF), after that show the list of products
                     // Asks which product, quantity and sum each product by the quantity (Total value = Price * quantity)
                     // At the end of the order: date of the order;  Save everything at struct Orders
 
@@ -159,18 +159,18 @@ void records_menu (void) {
         printf("====================================\n");
         printf("|" cyan "              Records" reset     "             |\n" );
         printf("====================================\n");
-        printf ("|" green " [1]" reset " List of Clients and Products |  \n");
-        printf ("|" green " [2]" reset " List of orders               |  \n");
+        printf ("|" green " [1]" reset " List of Costumers and Products |  \n");
+        printf ("|" green " [2]" reset " List of orders                 |  \n");
         printf ("====================================  \n");
 
         scanf ("%d", &opt); 
 
         switch (opt) {
-            case 1: // show the list of clients and product saved on their respectivies structs
+            case 1: // show the list of costumers and product saved on their respectivies structs
 
             break;
 
-            case 2: // Show the list of all the orders and for each order the number, client, date and total value of the order
+            case 2: // Show the list of all the orders and for each order the number, costumer, date and total value of the order
                     // Also shows which product and how many units were bought at that moment
             break;
 
