@@ -7,6 +7,46 @@
 #define cyan   "\033[36m"
 #define red "\033[31m"
 
+struct client_data {
+
+    int id;
+    char name[50];
+    char cpf[15];
+
+};
+
+typedef struct client_data client_data;
+
+struct product {
+
+    int id;
+    char name[50];
+    float price;
+
+};
+
+typedef struct product product;
+
+struct item_order {
+    
+    int id_product;
+    int quantity;
+};
+
+typedef struct item_order item_order;
+
+struct order {
+
+    int order_number;                                                       
+    int id_client;
+    item_order itens[100];
+    int total_itens; // quantity of differenty products
+    float total_value; // Total value of the order
+    char order_date[11];
+
+};
+
+typedef struct order order;
 
 void registration_menu (void) {
 
@@ -141,7 +181,7 @@ void menu (void) {
 int main () {
 
     setlocale(LC_ALL, ".UTF-8");
-   
+
     menu(); // MENU void
 
 
