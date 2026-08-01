@@ -10,7 +10,7 @@
 #define max_costumers 200
 #define max_products 100
 
-struct costumer_data {
+struct costumer_data { // void costumer_registration on line 61
 
     int id;
     char name[50];
@@ -24,7 +24,7 @@ costumer_data costumers[max_costumers];
 costumer_data costumer_verify[max_costumers];
 int total_costumer = 1;
 
-struct product {
+struct product { // void product_registration on line 97
 
     int id;
     char name[50];
@@ -33,6 +33,9 @@ struct product {
 };
 
 typedef struct product product;
+
+product products[max_products];
+int total_products = 0;
 
 struct item_order {
     
@@ -55,11 +58,11 @@ struct order {
 
 typedef struct order order;
 
-void costumer_registration (void) {
+void costumer_registration (void) { // struct on line 13
 
-    printf("==========================\n");
+    printf("=================================\n");
     printf("|" cyan "     Costumer registration" reset     "     |\n" );
-    printf("==========================\n");
+    printf("=================================\n");
 
 // Register costumer (Asks for "Name" "CPF" and generates an ID, goes to struct costumers)
     printf ("Enter your name: "); 
@@ -91,6 +94,25 @@ void costumer_registration (void) {
         
 }
 
+// Register Product (Asks for "Name" and "Price" generates an ID, goes to struct product)
+void product_registration (void) { // Struct on line 27 
+
+    printf("=================================\n");
+    printf("|" cyan "      Product registration" reset     "     |\n" );
+    printf("=================================\n");
+
+    printf ("Enter the product name: ");
+    fgets (products[total_products].name, 49, stdin);
+    products[total_products].name[strcspn(products[total_products].name, "\n")] = '\0';
+
+    printf ("Enter the product price: ");
+    scanf ("%f", &products[total_products].price);
+
+    total_products++;
+
+    printf (green "Product Registred!\n" reset);
+}
+
 void registration_menu (void) {
 
         int opt;
@@ -111,7 +133,7 @@ void registration_menu (void) {
             break;
 
             case 2: // Register Product (Asks for "Name" and "Price" generates an ID, goes to struct product)
-
+                product_registration();
             break;
 
             default:
