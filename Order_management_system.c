@@ -20,6 +20,7 @@ struct costumer_data { // void costumer_registration on line 61
 
 typedef struct costumer_data costumer_data;
 
+// Global variables for costumer_data;
 costumer_data costumers[max_costumers];
 costumer_data costumer_verify[max_costumers];
 int total_costumer = 1;
@@ -34,6 +35,7 @@ struct product { // void product_registration on line 97
 
 typedef struct product product;
 
+// Global variables for product;
 product products[max_products];
 int total_products = 0;
 
@@ -64,7 +66,7 @@ void costumer_registration (void) { // struct on line 13
     printf("|" cyan "     Costumer registration" reset     "     |\n" );
     printf("=================================\n");
 
-// Register costumer (Asks for "Name" "CPF" and generates an ID, goes to struct costumers)
+// To do: New cpf quantity of numbers verification (Maybe change to char so i can use strlen)
     printf ("Enter your name: "); 
     fgets (costumer_verify[total_costumer].name, 49, stdin);
     costumer_verify[total_costumer].name[strcspn(costumer_verify[total_costumer].name, "\n")] = '\0';
@@ -74,7 +76,7 @@ void costumer_registration (void) { // struct on line 13
 
         for (int i = 1; i < total_costumer + 1; i++) {
 
-            if (costumer_verify[i].cpf == costumers[i].cpf ){
+            if (costumer_verify[total_costumer].cpf == costumers[i].cpf ){
                 printf (red "Costumer already registered!\n" reset);
                 break;
             }
