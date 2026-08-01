@@ -109,8 +109,11 @@ void product_registration (void) { // Struct on line 27
 
     printf ("Enter the product price: ");
     scanf ("%f", &products[total_products].price);
+    getchar ();
 
-    total_products++;
+    products[total_products].id = total_products + 1;
+
+    total_products += 1;
 
     printf (green "Product Registred!\n" reset);
 }
@@ -191,7 +194,12 @@ void records_menu (void) {
 
         switch (opt) {
             case 1: // show the list of costumers and product saved on their respectivies structs
-
+                for (int i = 0; i < total_products; i++) { 
+                    // ADD the costumers later (easy implementation) 
+                    printf ("Product name: %s\t",products[i].name );
+                    printf ("Product price: %.2f\t",products[i].price );
+                    printf ("Product id: %d\n",products[i].id );
+                }
             break;
 
             case 2: // Show the list of all the orders and for each order the number, costumer, date and total value of the order
@@ -247,8 +255,6 @@ void menu (void) {
 }
 
 int main () {
-
-    setlocale(LC_ALL, ".UTF-8");
 
     menu(); // MENU void
 
