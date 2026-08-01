@@ -194,12 +194,23 @@ void records_menu (void) {
 
         switch (opt) {
             case 1: // show the list of costumers and product saved on their respectivies structs
-                for (int i = 0; i < total_products; i++) { 
-                    // ADD the costumers later (easy implementation) 
-                    printf ("Product name: %s\t",products[i].name );
-                    printf ("Product price: %.2f\t",products[i].price );
-                    printf ("Product id: %d\n",products[i].id );
-                }
+                printf("======================\n");
+                printf("|" cyan "       Products" reset     "     |\n" );
+                printf("======================\n");
+                    for (int i = 0; i < total_products; i++) { 
+                        
+                        printf ("Product name: %s\t",products[i].name );
+                        printf ("Product price: %.2f\t",products[i].price );
+                        printf ("Product id: %d\n",products[i].id );
+                    }
+                
+                printf("======================\n");
+                printf("|" cyan "      Costumers" reset     "     |\n" );
+                printf("======================\n");
+                    for (int i = 0; i < total_costumer; i++) {
+                        printf ("%s\n", costumers[i].name);
+                    }
+                    printf("\n");
             break;
 
             case 2: // Show the list of all the orders and for each order the number, costumer, date and total value of the order
