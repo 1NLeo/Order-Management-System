@@ -6,9 +6,12 @@
 #define green "\033[32m"
 #define cyan   "\033[36m"
 #define red "\033[31m"
+#define yellow "\033[33m"
+#define blue "\033[34m"
 
 #define max_costumers 200
 #define max_products 100
+#define max_itens 100
 
 struct costumer_data { // void costumer_registration on line 61
 
@@ -51,7 +54,7 @@ struct order {
 
     int order_number;                                                       
     int id_costumer;
-    item_order itens[100]; // 
+    item_order itens[max_itens]; // 
     int total_itens; // quantity of differenty products
     float total_value; // Total value of the order
     char order_date[11];
@@ -63,10 +66,10 @@ typedef struct order order;
 void costumer_registration (void) { // struct on line 13
 
     printf("=================================\n");
-    printf("|" cyan "     Costumer registration" reset     "     |\n" );
+    printf("|" blue "     Costumer registration" reset     "     |\n" );
     printf("=================================\n");
 
-// To do: New cpf quantity of numbers verification (Maybe change to char so i can use strlen)
+// To do: CPF quantity of numbers verification (Maybe change to char so i can use strlen)
     printf ("Enter your name: "); 
     fgets (costumer_verify[total_costumer].name, 49, stdin);
     costumer_verify[total_costumer].name[strcspn(costumer_verify[total_costumer].name, "\n")] = '\0';
@@ -86,7 +89,7 @@ void costumer_registration (void) { // struct on line 13
 
                 costumers[total_costumer].cpf = costumer_verify[total_costumer].cpf; //cpf
 
-                costumers[total_costumer].id += 1;
+                costumers[total_costumer].id = total_costumer;
                 total_costumer++;
 
                 printf (green "Costumer Registred!\n" reset);
@@ -99,9 +102,9 @@ void costumer_registration (void) { // struct on line 13
 // Register Product (Asks for "Name" and "Price" generates an ID, goes to struct product)
 void product_registration (void) { // Struct on line 27 
 
-    printf("=================================\n");
-    printf("|" cyan "      Product registration" reset     "     |\n" );
-    printf("=================================\n");
+    printf("================================\n");
+    printf("|" yellow "     Product registration" reset     "     |\n" );
+    printf("================================\n");
 
     printf ("Enter the product name: ");
     fgets (products[total_products].name, 49, stdin);
@@ -195,7 +198,7 @@ void records_menu (void) {
         switch (opt) {
             case 1: // show the list of costumers and product saved on their respectivies structs
                 printf("======================\n");
-                printf("|" cyan "       Products" reset     "     |\n" );
+                printf("|" yellow "       Products" reset     "     |\n" );
                 printf("======================\n");
                     for (int i = 0; i < total_products; i++) { 
                         
@@ -205,10 +208,18 @@ void records_menu (void) {
                     }
                 
                 printf("======================\n");
-                printf("|" cyan "      Costumers" reset     "     |\n" );
+                printf("|" blue "      Costumers" reset     "     |\n" );
                 printf("======================\n");
                     for (int i = 0; i < total_costumer; i++) {
-                        printf ("%s\n", costumers[i].name);
+
+                        if (i != 0) { // The 0 free space in the array never appears
+                          printf ("Costumer %d: %s\n",costumers[i].id, costumers[i].name);
+                        }
+
+                        else {
+                            continue;
+                        }
+                        
                     }
                     printf("\n");
             break;
