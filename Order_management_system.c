@@ -63,6 +63,7 @@ struct order {
 
 typedef struct order order;
 
+int verify = 0;
 void customer_registration (void) { // struct on line 13
 
     printf("=================================\n");
@@ -77,11 +78,21 @@ void customer_registration (void) { // struct on line 13
     printf ("Enter your CPF (only numbers): ");
     scanf ("%d", &customer_verify[total_customer].cpf );
 
-        for (int i = 1; i < total_customer + 1; i++) {
+        for (int i = 0; i < total_customer + 1; i++) {
 
-            if (customer_verify[total_customer].cpf == customers[i].cpf ){
-                printf (red "Costumer already registered!\n" reset);
+            if (customer_verify[total_customer].cpf == customers[i].cpf) {
+                verify = 1;
                 break;
+            }
+            else {
+                verify = 0;
+            }
+           
+        }
+
+         if (verify == 1){
+                printf (red "Costumer already registered!\n" reset);
+        
             }
 
             else {
@@ -93,9 +104,8 @@ void customer_registration (void) { // struct on line 13
                 total_customer++;
 
                 printf (green "Customer Registred!\n" reset);
-                break;
+        
             }
-        }
         
 }
 
@@ -150,19 +160,28 @@ void registration_menu (void) {
         }
 
 }
+
 void new_order (void) {
     // Asks for the costumer ID (CPF), after that show the list of products
     // Asks which product, quantity and sum each product by the quantity (Total value = Price * quantity)
     // At the end of the order: date of the order;  Save everything at struct Orders
 
+    printf("==========================\n");
+    printf("|" cyan "        New Order" reset     "       |\n" );
+    printf("==========================\n");
+    
     printf ("Enter your CPF (only numbers): ");
     scanf ("%d", &customer_verify[total_customer].cpf );
 
         for (int i = 1; i < total_customer + 1; i++) {
 
             if (customer_verify[total_customer].cpf == customers[i].cpf ){
-                printf (red "Customer registered!\n" reset);
+                printf (green "Customer registered!\n" reset);
                 
+            }
+
+            else {
+                printf (red "Customer not registred" reset);
             }
         }
 }
@@ -182,7 +201,7 @@ void orders_menu (void) {
 
         switch (opt) {
             case 1: 
-
+            new_order ();
             break;
 
             case 2:
