@@ -142,7 +142,7 @@ void registration_menu (void) {
             break;
 
             default:
-            printf (red "Error: " reset "Enter one of the options available.\n");
+            printf (red "Error: " reset "Enter one of the available options.\n");
             break;
         }
 
@@ -173,7 +173,7 @@ void orders_menu (void) {
             break;
 
             default:
-            printf (red "Error: " reset "Enter one of the options available.\n");
+            printf (red "Error: " reset "Enter one of the available options.\n");
             break;
         }
 
@@ -218,7 +218,7 @@ void records_menu (void) {
             break;
 
             default:
-            printf (red "Error: " reset "Enter one of the options available.\n");
+            printf (red "Error: " reset "Enter one of the available options.\n");
             break;
         }
 
@@ -256,7 +256,7 @@ void menu (void) {
                 break;
 
                 default:
-                printf (red "Error: " reset "Enter one of the options available.\n");
+                printf (red "Error: " reset "Enter one of the available options.\n");
                 break;
             }
 
