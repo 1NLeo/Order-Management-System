@@ -51,21 +51,29 @@ struct item_order {
 
 typedef struct item_order item_order;
 
-struct order {
+item_order iten_info[max_itens];
+int total_items = 0;
+
+
+struct order_data {
 
     int order_number;                                                       
-    int id_costumer;
-    item_order itens[max_itens]; // 
-    int total_itens; // quantity of differenty products
+    int id_customer;
+    item_order items[max_itens]; // 
+    int dif_itens; // quantity of differenty products
     float total_value; // Total value of the order
     char order_date[11];
 
 };
 
-typedef struct order order;
+typedef struct order_data order_data;
+order_data order[max_itens]; 
+int ord_id = 1;
+int difitems = 0;
+int total_sum = 0;
+
 
 int verify = 0;
-
 void cpf_verification() { //  verify return 1 when the customer is already registred
 
     printf ("Enter your CPF (only numbers): ");
@@ -175,30 +183,67 @@ void new_order (void) {
     // Asks for the costumer ID (CPF), after that show the list of products with the quantity of a specific product
     // Asks which product, quantity and sum each product by the quantity (Total value = Price * quantity)
     // At the end of the order: date of the order;  Save everything at struct Orders
+    int new_odr = 0;
 
-    printf("==========================\n");
-    printf("|" cyan "        New Order" reset     "       |\n" );
-    printf("==========================\n");
     
-    cpf_verification();
+        printf("==========================\n");
+        printf("|" cyan "        New Order" reset     "       |\n" );
+        printf("==========================\n");
+    
+        cpf_verification();
 
-    if (verify == 1) {
-        printf (green "Customer verified!\n" reset);
+    do {
+        if (verify == 1) {
+            printf (green "Customer verified!\n" reset);
 
-        printf("======================\n");
-        printf("|" yellow "       Products" reset     "     |\n" );
-        printf("======================\n");
+            printf("======================\n");
+            printf("|" yellow "       Products" reset     "     |\n" );
+            printf("======================\n");
 
-        for (int i = 0; i < total_products; i++) {  
-            printf ("Product id: [%d]\t",products[i].id );           
-            printf ("Product name: %s\t",products[i].name );
-            printf ("Product price: $%.2f\t",products[i].price );
-            printf ("Available: %d\n", products[i].quantity);
+            for (int i = 0; i < total_products; i++) {  
+                printf ("Product id: [%d]\t",products[i].id );           
+                printf ("Product name: %s\t",products[i].name );
+                printf ("Product price: $%.2f\t",products[i].price );
+                printf ("Available: %d\n", products[i].quantity);
+            }
+
+            printf ("Which product do you want [id]: ");
+            scanf ("%d", &iten_info[total_items].id_product);
+            
+
+            printf ("Enter the quantity you want: ");
+            scanf ("%d", &iten_info[total_items].quantity);
+            getchar();
+
+            printf ("Enter todays date DD/MM/YYYY: ");
+            fgets(order[total_items].order_date, 11, stdin);
+
+            order[total_items].dif_itens = difitems;
+            order[total_items].order_number = ord_id;
+
+            printf ("Another order: [1] Yes");
+            printf ("               [2] NO \n");
+            scanf ("%d", &new_odr);
+
+            difitems++;
+            ord_id++;
+            total_items++;
+
+            products[iten_info[total_items - 1].id_product].quantity = products[iten_info[total_items - 1].id_product].quantity - iten_info[total_items - 1].quantity;
+
+            order[total_sum].total_value += iten_info[total_items - 1].quantity * products[iten_info[total_items - 1].id_product].price;
+
+            if (new_odr == 2) {
+                printf ("Order value: %.2f\n", order[total_sum].total_value);
+                total_sum++;
+            }
+            
+                    
         }
 
-        
 
-    }
+    } while (new_odr != 2);
+   
 }
 
 void orders_menu (void) {
@@ -283,7 +328,7 @@ void records_menu (void) {
             break;
 
             case 2: // Show the list of all the orders and for each order the number, costumer, date and total value of the order
-            //line 215 // Also shows which product and how many units were bought at that moment
+            //line 308 // Also shows which product and how many units were bought at that moment
             break;
 
             default:
