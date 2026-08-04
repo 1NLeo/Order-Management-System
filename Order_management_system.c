@@ -10,8 +10,8 @@
 #define purple "\033[34m"
 
 #define max_customers 200
-#define max_products 100
-#define max_itens 100
+#define max_products 200
+#define max_itens 200
 
 struct customer_data { // void customer_registration on line 61
 
@@ -33,6 +33,7 @@ struct product { // void product_registration on line 97
     int id;
     char name[50];
     float price;
+    int quantity;
 
 };
 
@@ -64,16 +65,8 @@ struct order {
 typedef struct order order;
 
 int verify = 0;
-void customer_registration (void) { // struct on line 13
 
-    printf("=================================\n");
-    printf("|" purple "     Customer registration" reset     "     |\n" );
-    printf("=================================\n");
-
-// To do: CPF quantity of numbers verification (Maybe change to char so i can use strlen)
-    printf ("Enter your name: "); 
-    fgets (customer_verify[total_customer].name, 49, stdin);
-    customer_verify[total_customer].name[strcspn(customer_verify[total_customer].name, "\n")] = '\0';
+void cpf_verification() { //  verify return 1 when the customer is already registred
 
     printf ("Enter your CPF (only numbers): ");
     scanf ("%d", &customer_verify[total_customer].cpf );
@@ -89,10 +82,24 @@ void customer_registration (void) { // struct on line 13
             }
            
         }
+}
+
+void customer_registration (void) { // struct on line 13
+
+    printf("=================================\n");
+    printf("|" purple "     Customer registration" reset     "     |\n" );
+    printf("=================================\n");
+
+// To do: CPF quantity of numbers verification (Maybe change to char so i can use strlen)
+    printf ("Enter your name: "); 
+    fgets (customer_verify[total_customer].name, 49, stdin);
+    customer_verify[total_customer].name[strcspn(customer_verify[total_customer].name, "\n")] = '\0';
+
+    cpf_verification ();
 
          if (verify == 1){
-                printf (red "Costumer already registered!\n" reset);
-        
+                printf (red "Customer already registered!\n" reset);
+
             }
 
             else {
@@ -103,7 +110,7 @@ void customer_registration (void) { // struct on line 13
                 customers[total_customer].id = total_customer;
                 total_customer++;
 
-                printf (green "Customer Registred!\n" reset);
+                printf (green "Customer Successfully Registred!\n" reset);
         
             }
         
@@ -120,11 +127,14 @@ void product_registration (void) { // Struct on line 27
     fgets (products[total_products].name, 49, stdin);
     products[total_products].name[strcspn(products[total_products].name, "\n")] = '\0';
 
+    printf ("Enter the number of available %ss: ", products[total_products].name);
+    scanf ("%d", &products[total_products].quantity);
+
     printf ("Enter the product price: ");
     scanf ("%f", &products[total_products].price);
     getchar ();
 
-    products[total_products].id = total_products + 1;
+    products[total_products].id = total_products;
 
     total_products += 1;
 
@@ -162,7 +172,7 @@ void registration_menu (void) {
 }
 
 void new_order (void) {
-    // Asks for the costumer ID (CPF), after that show the list of products
+    // Asks for the costumer ID (CPF), after that show the list of products with the quantity of a specific product
     // Asks which product, quantity and sum each product by the quantity (Total value = Price * quantity)
     // At the end of the order: date of the order;  Save everything at struct Orders
 
@@ -170,20 +180,25 @@ void new_order (void) {
     printf("|" cyan "        New Order" reset     "       |\n" );
     printf("==========================\n");
     
-    printf ("Enter your CPF (only numbers): ");
-    scanf ("%d", &customer_verify[total_customer].cpf );
+    cpf_verification();
 
-        for (int i = 1; i < total_customer + 1; i++) {
+    if (verify == 1) {
+        printf (green "Customer verified!\n" reset);
 
-            if (customer_verify[total_customer].cpf == customers[i].cpf ){
-                printf (green "Customer registered!\n" reset);
-                
-            }
+        printf("======================\n");
+        printf("|" yellow "       Products" reset     "     |\n" );
+        printf("======================\n");
 
-            else {
-                printf (red "Customer not registred" reset);
-            }
+        for (int i = 0; i < total_products; i++) {  
+            printf ("Product id: [%d]\t",products[i].id );           
+            printf ("Product name: %s\t",products[i].name );
+            printf ("Product price: $%.2f\t",products[i].price );
+            printf ("Available: %d\n", products[i].quantity);
         }
+
+        
+
+    }
 }
 
 void orders_menu (void) {
@@ -233,7 +248,7 @@ void list1_records (void) {
                     for (int i = 0; i < total_customer; i++) {
 
                         if (i != 0) { // The 0 free space in the array never appears
-                          printf ("Costumer %d: %s\n",customers[i].id, customers[i].name);
+                          printf ("Customer %d: %s\n",customers[i].id, customers[i].name);
                         }
 
                         else {
@@ -256,7 +271,7 @@ void records_menu (void) {
         printf("====================================\n");
         printf("|" cyan "              Records" reset     "             |\n" );
         printf("====================================\n");
-        printf ("|" green " [1]" reset " List of Costumers and Products |  \n");
+        printf ("|" green " [1]" reset " List of Customers and Products |  \n");
         printf ("|" green " [2]" reset " List of orders                 |  \n");
         printf ("====================================  \n");
 
