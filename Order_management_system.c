@@ -180,9 +180,9 @@ void registration_menu (void) {
 }
 
 void new_order (void) {
-    // Asks for the costumer ID (CPF), after that show the list of products with the quantity of a specific product
-    // Asks which product, quantity and sum each product by the quantity (Total value = Price * quantity)
     // At the end of the order: date of the order;  Save everything at struct Orders
+    // Verify if is there any product available and if the quantity you want is available;
+
     int new_odr = 0;
 
     
@@ -192,15 +192,25 @@ void new_order (void) {
     
         cpf_verification();
 
-    do {
-        if (verify == 1) {
-            printf (green "Customer verified!\n" reset);
+    
+    if (verify == 1) {
+
+        printf (green "Customer verified!\n" reset);
+
+        do {
 
             printf("======================\n");
             printf("|" yellow "       Products" reset     "     |\n" );
             printf("======================\n");
 
-            for (int i = 0; i < total_products; i++) {  
+            for (int i = 0; i < total_products; i++) {
+                if (products[i].quantity == 0) {
+                printf ("Product id: [%d]\t",products[i].id );           
+                printf ("Product name: %s\t",products[i].name );
+                printf ("Product price: $%.2f\t",products[i].price );
+                printf (red "Out of stock!\n" reset);
+                continue;
+            }    
                 printf ("Product id: [%d]\t",products[i].id );           
                 printf ("Product name: %s\t",products[i].name );
                 printf ("Product price: $%.2f\t",products[i].price );
@@ -215,34 +225,47 @@ void new_order (void) {
             scanf ("%d", &iten_info[total_items].quantity);
             getchar();
 
-            printf ("Enter todays date DD/MM/YYYY: ");
-            fgets(order[total_items].order_date, 11, stdin);
+            if (iten_info[total_items].quantity > products[iten_info[total_items].id_product].quantity ) {
+                printf(red "ERROR: " reset "The quantity you want is bigger than the available quantity\n");
 
-            order[total_items].dif_itens = difitems;
-            order[total_items].order_number = ord_id;
+                printf ("Enter an available quantity: ");
+                scanf ("%d", &iten_info[total_items].quantity);
+                getchar();
+            }
 
-            printf ("Another order: [1] Yes");
-            printf ("               [2] NO \n");
-            scanf ("%d", &new_odr);
+            else {
+                order[total_items].dif_itens = difitems;
+                order[total_items].order_number = ord_id;
 
-            difitems++;
-            ord_id++;
-            total_items++;
+                printf ("Another order: [1] Yes");
+                printf ("               [2] NO \n");
+                scanf ("%d", &new_odr);
 
-            products[iten_info[total_items - 1].id_product].quantity = products[iten_info[total_items - 1].id_product].quantity - iten_info[total_items - 1].quantity;
+                difitems++;
+                ord_id++;
+                total_items++;
 
-            order[total_sum].total_value += iten_info[total_items - 1].quantity * products[iten_info[total_items - 1].id_product].price;
+                order[total_sum].total_value += iten_info[total_items - 1].quantity * products[iten_info[total_items - 1].id_product].price;
 
+            }
+
+            
             if (new_odr == 2) {
-                printf ("Order value: %.2f\n", order[total_sum].total_value);
+                printf ("Enter todays date DD/MM/YYYY: ");
+                fgets(order[total_items].order_date, 11, stdin);
+
+                printf ("Order value: $%.2f\n", order[total_sum].total_value);
                 total_sum++;
             }
             
-                    
+        } while (new_odr != 2);  
+    }
+
+         else {
+            printf (red "ERROR: " reset "customer not registered!\n");
         }
 
-
-    } while (new_odr != 2);
+   
    
 }
 
