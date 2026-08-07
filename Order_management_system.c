@@ -219,6 +219,17 @@ void new_order (void) {
 
             printf ("Which product do you want [id]: ");
             scanf ("%d", &iten_info[total_items].id_product);
+
+            if (iten_info[total_items].id_product == iten_info[total_items].id_product && products[iten_info[total_items].id_product].quantity == 0) {
+
+                printf (red "ERROR: " reset "This item is out of stock");
+                
+                    while (iten_info[total_items].id_product == iten_info[total_items].id_product && products[iten_info[total_items].id_product].quantity == 0) {
+                        
+                        printf ("Choose another product do you want [id]: ");
+                        scanf ("%d", &iten_info[total_items].id_product);    
+                    }
+            }
             
 
             printf ("Enter the quantity you want: ");
