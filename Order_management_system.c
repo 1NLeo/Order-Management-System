@@ -228,9 +228,25 @@ void new_order (void) {
             if (iten_info[total_items].quantity > products[iten_info[total_items].id_product].quantity ) {
                 printf(red "ERROR: " reset "The quantity you want is bigger than the available quantity\n");
 
-                printf ("Enter an available quantity: ");
-                scanf ("%d", &iten_info[total_items].quantity);
-                getchar();
+                while (iten_info[total_items].quantity > products[iten_info[total_items].id_product].quantity) {
+                    printf ("Enter an available quantity: ");
+                    scanf ("%d", &iten_info[total_items].quantity);
+                }
+
+                    order[total_items].dif_itens = difitems;
+                    order[total_items].order_number = ord_id;
+
+                    printf ("Another order: [1] Yes");
+                    printf ("               [2] NO \n");
+                    scanf ("%d", &new_odr);
+                    getchar ();
+
+                    order[total_sum].total_value += iten_info[total_items].quantity * products[iten_info[total_items].id_product].price;  
+                    products[iten_info[total_items].id_product].quantity = products[iten_info[total_items].id_product].quantity - iten_info[total_items].quantity;
+
+                    difitems++;
+                    ord_id++;
+                    total_items++;
             }
 
             else {
@@ -240,13 +256,14 @@ void new_order (void) {
                 printf ("Another order: [1] Yes");
                 printf ("               [2] NO \n");
                 scanf ("%d", &new_odr);
+                getchar ();
+
+                order[total_sum].total_value += iten_info[total_items].quantity * products[iten_info[total_items].id_product].price;  
+                products[iten_info[total_items].id_product].quantity = products[iten_info[total_items].id_product].quantity - iten_info[total_items].quantity;
 
                 difitems++;
                 ord_id++;
                 total_items++;
-
-                order[total_sum].total_value += iten_info[total_items - 1].quantity * products[iten_info[total_items - 1].id_product].price;
-
             }
 
             
