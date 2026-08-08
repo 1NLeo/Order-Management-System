@@ -322,11 +322,17 @@ void orders_menu (void) {
 
         switch (opt) {
             case 1: 
-            new_order ();
+            if (total_items == 0) {
+                printf (yellow "No products at the moment!\n" reset);
+                break;
+            }
+            else {
+                new_order ();
+            }
             break;
 
             case 2:
-            printf ("Returning to the menu...\n");
+            printf (green "Returning to the menu...\n" reset);
             break;
 
             default:
@@ -336,7 +342,7 @@ void orders_menu (void) {
 
 }
 
-void list1_records (void) {
+void cp_records (void) {
       
         printf("======================\n");
         printf("|" yellow "       Products" reset     "     |\n" );
@@ -385,7 +391,7 @@ void records_menu (void) {
 
         switch (opt) {
             case 1: // show the list of costumers and product saved on their respectivies structs
-                list1_records(); // On line 185
+                cp_records(); // On line 185
             break;
 
             case 2: // Show the list of all the orders and for each order the number, costumer, date and total value of the order
