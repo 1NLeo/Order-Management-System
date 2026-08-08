@@ -196,7 +196,7 @@ void new_order (void) {
     if (verify == 1) {
 
         printf (green "Customer verified!\n" reset);
-
+        difitems = 0;
         do {
 
             printf("======================\n");
@@ -221,27 +221,38 @@ void new_order (void) {
             scanf ("%d", &iten_info[total_items].id_product);
 
             if (iten_info[total_items].id_product == iten_info[total_items].id_product && products[iten_info[total_items].id_product].quantity == 0) {
-
-                printf (red "ERROR: " reset "This item is out of stock");
                 
                     while (iten_info[total_items].id_product == iten_info[total_items].id_product && products[iten_info[total_items].id_product].quantity == 0) {
                         
+                        if (products[iten_info[total_items].id_product].quantity == 0) {
+                            printf (yellow "Item out of stock!\n" reset);
+                            break;
+                        }
+
                         printf ("Choose another product do you want [id]: ");
                         scanf ("%d", &iten_info[total_items].id_product);    
                     }
             }
             
-
-            printf ("Enter the quantity you want: ");
-            scanf ("%d", &iten_info[total_items].quantity);
-            getchar();
+            else {
+                printf ("Enter the quantity you want: ");
+                scanf ("%d", &iten_info[total_items].quantity);
+                getchar();
+            }
+            
 
             if (iten_info[total_items].quantity > products[iten_info[total_items].id_product].quantity ) {
                 printf(red "ERROR: " reset "The quantity you want is bigger than the available quantity\n");
 
                 while (iten_info[total_items].quantity > products[iten_info[total_items].id_product].quantity) {
-                    printf ("Enter an available quantity: ");
-                    scanf ("%d", &iten_info[total_items].quantity);
+                    if (products[iten_info[total_items].id_product].quantity == 0) {
+                        printf (yellow "Item out of stock!" reset);
+                        break;
+                    } 
+                    else {
+                        printf ("Enter an available quantity: ");
+                        scanf ("%d", &iten_info[total_items].quantity);
+                    }
                 }
 
                     order[total_items].dif_itens = difitems;
@@ -283,6 +294,7 @@ void new_order (void) {
                 fgets(order[total_items].order_date, 11, stdin);
 
                 printf ("Order value: $%.2f\n", order[total_sum].total_value);
+                order[total_sum].dif_itens == difitems;
                 total_sum++;
             }
             
@@ -292,9 +304,7 @@ void new_order (void) {
          else {
             printf (red "ERROR: " reset "customer not registered!\n");
         }
-
-   
-   
+ 
 }
 
 void orders_menu (void) {
