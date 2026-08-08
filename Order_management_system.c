@@ -342,7 +342,7 @@ void orders_menu (void) {
 
 }
 
-void cp_records (void) {
+void cp_records (void) { // costumer & products list
       
         printf("======================\n");
         printf("|" yellow "       Products" reset     "     |\n" );
