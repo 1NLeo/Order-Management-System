@@ -58,7 +58,7 @@ int total_items = 0;
 struct order_data {
 
     int order_number;                                                       
-    int id_customer;
+    int cpf_customer;
     item_order items[max_itens]; // 
     int dif_itens; // quantity of differenty products
     float total_value; // Total value of the order
@@ -71,6 +71,7 @@ order_data order[max_itens];
 int ord_id = 1;
 int difitems = 0;
 int total_sum = 0;
+int total_orders = 0;
 
 
 int verify = 0;
@@ -267,7 +268,6 @@ void new_order (void) {
                     products[iten_info[total_items].id_product].quantity = products[iten_info[total_items].id_product].quantity - iten_info[total_items].quantity;
 
                     difitems++;
-                    ord_id++;
                     total_items++;
             }
 
@@ -284,7 +284,6 @@ void new_order (void) {
                 products[iten_info[total_items].id_product].quantity = products[iten_info[total_items].id_product].quantity - iten_info[total_items].quantity;
 
                 difitems++;
-                ord_id++;
                 total_items++;
             }
 
@@ -296,6 +295,9 @@ void new_order (void) {
                 printf ("Order value: $%.2f\n", order[total_sum].total_value);
                 order[total_sum].dif_itens == difitems;
                 total_sum++;
+                order[total_orders].cpf_customer = customer_verify[total_customer].cpf;
+                total_orders++;
+                ord_id++;
             }
             
         } while (new_odr != 2);  
@@ -322,7 +324,7 @@ void orders_menu (void) {
 
         switch (opt) {
             case 1: 
-            if (total_items == 0) {
+            if (total_products == 0) {
                 printf (yellow "No products at the moment!\n" reset);
                 break;
             }
@@ -342,7 +344,7 @@ void orders_menu (void) {
 
 }
 
-void cp_records (void) { // costumer & products list
+void cp_records (void) { // customer & products list
       
         printf("======================\n");
         printf("|" yellow "       Products" reset     "     |\n" );
@@ -372,7 +374,24 @@ void cp_records (void) { // costumer & products list
 
 }
 
-void orders_list (void) { // To do:
+void orders_list (void) { // To do: when show the orders of one customer use the difitens to show all the itens in the loop
+// Show the list of all the orders and for each order the number, costumer, date and total value of the order
+//line 308 // Also shows which product and how many units were bought at that moment
+
+        printf("======================\n");
+        printf("|" yellow "       Orders" reset     "     |\n" );
+        printf("======================\n");
+        // order[total_orders].id_customer = customer_verify[total_customer].cpf; TO DO A LOOP WITH IT.
+        for (int i = 0; i < total_orders; i++) {
+            printf ("Order: %d \t", order[i].order_number); // OK.
+            printf ("Order: %d \t", order[i].order_number); // TO DO: customer
+            printf ("Order: %d \t", order[i].order_number); // TO DO: date
+            printf ("Order: %d \n", order[i].order_number); // TO DO: total value
+            printf ("Order: %d \n", order[i].order_number); // Wich product & how many unities
+        
+
+        }
+
 
 }
 
@@ -395,7 +414,7 @@ void records_menu (void) {
             break;
 
             case 2: // Show the list of all the orders and for each order the number, costumer, date and total value of the order
-            //line 308 // Also shows which product and how many units were bought at that moment
+                order_list(); //line 308 // Also shows which product and how many units were bought at that moment
             break;
 
             default:
