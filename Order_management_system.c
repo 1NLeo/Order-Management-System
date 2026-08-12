@@ -384,7 +384,13 @@ void orders_list (void) { // To do: when show the orders of one customer use the
         // order[total_orders].id_customer = customer_verify[total_customer].cpf; TO DO A LOOP WITH IT.
         for (int i = 0; i < total_orders; i++) {
             printf ("Order: %d \t", order[i].order_number); // OK.
-            printf ("Order: %d \t", order[i].order_number); // TO DO: customer
+            for (int j = 0; j < total_customer; j++) {
+                if (order[i].cpf_customer == customers[j].cpf) {
+                    printf ("%s", customers[j].name);
+                    break;
+                }
+            }
+             
             printf ("Order: %d \t", order[i].order_number); // TO DO: date
             printf ("Order: %d \n", order[i].order_number); // TO DO: total value
             printf ("Order: %d \n", order[i].order_number); // Wich product & how many unities
