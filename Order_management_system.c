@@ -259,8 +259,6 @@ void new_order (void) {
                     order[total_items].dif_itens = difitems;
                     order[total_items].number = ord_id;
                     ord_id++;
-                    difitems++;
-                    total_items++;
 
                     printf ("Another order: [1] Yes");
                     printf ("               [2] NO \n");
@@ -270,6 +268,8 @@ void new_order (void) {
                     order[total_sum].total_value += iten_info[total_items].quantity * products[iten_info[total_items].id_product].price;  
                     products[iten_info[total_items].id_product].quantity = products[iten_info[total_items].id_product].quantity - iten_info[total_items].quantity;
 
+                    total_items++;
+                    difitems++;
                     
             }
 
@@ -277,8 +277,6 @@ void new_order (void) {
                 order[total_items].dif_itens = difitems;
                 order[total_items].number = ord_id;
                 ord_id++;
-                difitems++;
-                total_items++;
 
                 printf ("Another order: [1] Yes");
                 printf ("               [2] NO \n");
@@ -287,7 +285,9 @@ void new_order (void) {
 
                 order[total_sum].total_value += iten_info[total_items].quantity * products[iten_info[total_items].id_product].price;  
                 products[iten_info[total_items].id_product].quantity = products[iten_info[total_items].id_product].quantity - iten_info[total_items].quantity;
-
+                
+                total_items++;
+                difitems++;
             }
 
             
@@ -296,7 +296,7 @@ void new_order (void) {
                 fgets(order[total_sum].date, 11, stdin); // Another if in case of more letter
 
                 printf ("Order value: $%.2f\n", order[total_sum].total_value);
-                order[total_sum].dif_itens == difitems;
+                order[total_sum].dif_itens = difitems;
                 total_sum++;
                 order[total_orders].cpf_customer = customer_verify[total_customer].cpf;
                 total_orders++;
@@ -392,7 +392,7 @@ void find_customer_by_cpf (void) {
 void orders_list (void) { // To do: when show the orders of one customer use the difitens to show all the itens in the loop
 // Show the list of all the orders and for each order the number, costumer, date and total value of the order
 //line 308 // Also shows which product and how many units were bought at that moment
-
+        int pdt_info = 0;
         printf("======================\n");
         printf("|" yellow "       Orders" reset     "      |\n" );
         printf("======================\n");
@@ -406,9 +406,12 @@ void orders_list (void) { // To do: when show the orders of one customer use the
                 }
             }
 
-            
-                printf ("Product: %s \t", products[iten_info[i].id_product].name);	
-                printf ("Quantity: %d \t", iten_info[i].quantity);
+            for (int j = 0; j < order[i].dif_itens; j++) {
+                printf ("Product: %s \t", products[iten_info[pdt_info].id_product].name);	
+                printf ("Quantity: %d \t", iten_info[pdt_info].quantity);
+                pdt_info++;
+            }
+                
             
           
  
