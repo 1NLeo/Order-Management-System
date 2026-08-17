@@ -51,7 +51,7 @@ struct item_order {
 
 typedef struct item_order item_order;
 
-item_order iten_info[max_itens];
+item_order item_info[max_itens];
 int total_items = 0;
 
 
@@ -60,7 +60,7 @@ struct order_data {
     int number;                                                       
     int cpf_customer;
     item_order items[max_itens]; // 
-    int dif_itens; // quantity of differenty products
+    int dif_items; // quantity of differenty products
     float total_value; // Total value of the order
     char date[11];
 
@@ -219,44 +219,44 @@ void new_order (void) {
             }
 
             printf ("Which product do you want [id]: ");
-            scanf ("%d", &iten_info[total_items].id_product);
+            scanf ("%d", &item_info[total_items].id_product);
 
-            if (iten_info[total_items].id_product == iten_info[total_items].id_product && products[iten_info[total_items].id_product].quantity == 0) {
+            if (item_info[total_items].id_product == item_info[total_items].id_product && products[item_info[total_items].id_product].quantity == 0) {
                 
-                    while (iten_info[total_items].id_product == iten_info[total_items].id_product && products[iten_info[total_items].id_product].quantity == 0) {
+                    while (item_info[total_items].id_product == item_info[total_items].id_product && products[item_info[total_items].id_product].quantity == 0) {
                         
-                        if (products[iten_info[total_items].id_product].quantity == 0) {
+                        if (products[item_info[total_items].id_product].quantity == 0) {
                             printf (yellow "Item out of stock!\n" reset);
                             break;
                         }
 
                         printf ("Choose another product do you want [id]: ");
-                        scanf ("%d", &iten_info[total_items].id_product);    
+                        scanf ("%d", &item_info[total_items].id_product);    
                     }
             }
             
             else {
                 printf ("Enter the quantity you want: ");
-                scanf ("%d", &iten_info[total_items].quantity);
+                scanf ("%d", &item_info[total_items].quantity);
                 getchar();
             }
             
 
-            if (iten_info[total_items].quantity > products[iten_info[total_items].id_product].quantity ) {
+            if (item_info[total_items].quantity > products[item_info[total_items].id_product].quantity ) {
                 printf(red "ERROR: " reset "The quantity you want is bigger than the available quantity\n");
 
-                while (iten_info[total_items].quantity > products[iten_info[total_items].id_product].quantity) {
-                    if (products[iten_info[total_items].id_product].quantity == 0) {
+                while (item_info[total_items].quantity > products[item_info[total_items].id_product].quantity) {
+                    if (products[item_info[total_items].id_product].quantity == 0) {
                         printf (yellow "Item out of stock!" reset);
                         break;
                     } 
                     else {
                         printf ("Enter an available quantity: ");
-                        scanf ("%d", &iten_info[total_items].quantity);
+                        scanf ("%d", &item_info[total_items].quantity);
                     }
                 }
 
-                    order[total_items].dif_itens = difitems;
+                    order[total_items].dif_items = difitems;
                     order[total_items].number = ord_id;
                     ord_id++;
 
@@ -265,8 +265,8 @@ void new_order (void) {
                     scanf ("%d", &new_odr);
                     getchar ();
 
-                    order[total_sum].total_value += iten_info[total_items].quantity * products[iten_info[total_items].id_product].price;  
-                    products[iten_info[total_items].id_product].quantity = products[iten_info[total_items].id_product].quantity - iten_info[total_items].quantity;
+                    order[total_sum].total_value += item_info[total_items].quantity * products[item_info[total_items].id_product].price;  
+                    products[item_info[total_items].id_product].quantity = products[item_info[total_items].id_product].quantity - item_info[total_items].quantity;
 
                     total_items++;
                     difitems++;
@@ -274,7 +274,7 @@ void new_order (void) {
             }
 
             else {
-                order[total_items].dif_itens = difitems;
+                order[total_items].dif_items = difitems;
                 order[total_items].number = ord_id;
                 ord_id++;
 
@@ -283,8 +283,8 @@ void new_order (void) {
                 scanf ("%d", &new_odr);
                 getchar ();
 
-                order[total_sum].total_value += iten_info[total_items].quantity * products[iten_info[total_items].id_product].price;  
-                products[iten_info[total_items].id_product].quantity = products[iten_info[total_items].id_product].quantity - iten_info[total_items].quantity;
+                order[total_sum].total_value += item_info[total_items].quantity * products[item_info[total_items].id_product].price;  
+                products[item_info[total_items].id_product].quantity = products[item_info[total_items].id_product].quantity - item_info[total_items].quantity;
                 
                 total_items++;
                 difitems++;
@@ -296,7 +296,7 @@ void new_order (void) {
                 fgets(order[total_sum].date, 11, stdin); // Another if in case of more letter
 
                 printf ("Order value: $%.2f\n", order[total_sum].total_value);
-                order[total_sum].dif_itens = difitems;
+                order[total_sum].dif_items = difitems;
                 total_sum++;
                 order[total_orders].cpf_customer = customer_verify[total_customer].cpf;
                 total_orders++;
@@ -406,9 +406,9 @@ void orders_list (void) { // To do: when show the orders of one customer use the
                 }
             }
 
-            for (int j = 0; j < order[i].dif_itens; j++) {
-                printf ("Product: %s \t", products[iten_info[pdt_info].id_product].name);	
-                printf ("Quantity: %d \t", iten_info[pdt_info].quantity);
+            for (int j = 0; j < order[i].dif_items; j++) {
+                printf ("Product: %s \t", products[item_info[pdt_info].id_product].name);	
+                printf ("Quantity: %d \t", item_info[pdt_info].quantity);
                 pdt_info++;
             }
                 
