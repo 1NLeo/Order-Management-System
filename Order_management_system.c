@@ -75,7 +75,7 @@ int total_orders = 0;
 
 
 int verify = 0;
-void cpf_verification() { //  verify return 1 when the customer is already registred
+void cpf_verification(void) { //  verify return 1 when the customer is already registred
 
     printf ("Enter your CPF (only numbers): ");
     scanf ("%d", &customer_verify[total_customer].cpf );
